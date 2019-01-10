@@ -1,0 +1,46 @@
+###############################################################################
+#
+#  Variables specific to your environment, they can be overriden from the
+#  command-line with `make VARNAME=value`
+#
+###############################################################################
+
+# Path to the cross compiler, including the target prefix
+CROSS_COMPILE := /home/pierre/Applications/xgcc/bin/x86_64-elf-
+GCCINCDIR     := /home/pierre/Applications/xgcc/lib/gcc/x86_64-elf/8.2.0/include/
+
+OVMF_PATH     := /usr/share/ovmf/x64/
+
+
+###############################################################################
+#
+#  The following variables should work for any environment
+#
+###############################################################################
+
+INCDIRS := $(TOPDIR)/include $(GCCINCDIR)
+
+CC      := $(CROSS_COMPILE)gcc
+OBJCOPY := $(CROSS_COMPILE)objcopy
+LD      := $(CROSS_COMPILE)ld
+MKDIR   := mkdir
+
+CFLAGS  := -std=c11 -ffreestanding
+CFLAGS  += -O2 -Wall -Werror -ggdb3
+CFLAGS  += -march=native -fshort-wchar
+CFLAGS  += -fpic -fno-stack-protector -mno-red-zone
+CFLAGS  += $(foreach inc, $(INCDIRS), -I $(inc))
+
+LDFLAGS := -O1 --fatal-warnings
+
+SRC := $(wildcard *.c)
+OBJ := $(SRC:.c=.o)
+SO  := $(notdir $(CURDIR)).so
+
+GCC_LIBS      := -L$(dir $(shell $(CC) -mno-red-zone -print-libgcc-file-name)) -lgcc
+EFI_LIBS      := -L/usr/lib -lgnuefi -lefi
+EFI_LD_SCRIPT := /usr/lib/elf_x86_64_efi.lds
+EFI_CRT0      := /usr/lib/crt0-efi-x86_64.o
+
+EFI_SECTIONS       := .text .sdata .data .dynamic .dynsym .rel .rela .reloc
+EFI_DEBUG_SECTIONS := .debug_info .debug_abbrev .debug_loc .debug_aranges .debug_line .debug_macinfo .debug_str

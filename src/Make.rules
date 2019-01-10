@@ -1,0 +1,13 @@
+$(SO): $(OBJ)
+	$(LD) -r $(LDFLAGS) $^ -o $@ $(LOADLIBES)
+
+dumpvars:
+	@echo ROOTDIR=$(ROOTDIR)
+	@echo SRCDIR=$(ROOTDIR)
+	@echo CROSS_COMPILE=$(CROSS_COMPILE)
+	@echo GCCINCDIR=$(GCCINCDIR)
+	@echo TOPDIR=$(TOPDIR)
+	@echo INCDIRS=$(INCDIRS)
+	@echo OBJDIR=$(OBJDIR)
+	@echo CFLAGS=$(CFLAGS)
+	@echo LDFLAGS=$(LDFLAGS)

@@ -1,0 +1,53 @@
+
+# GDB
+
+frame - display current frame number
+frame 3 - switch to frame 3
+whatis wait
+print wait - only work if wait is in the current frame's context - short form is p
+set wait=1
+
+break 10 - stop execution before line 10 in file having main()
+break filename:linenumber
+break filename:function
+info breakpoints
+disable 1 - disable 1st breakpoint
+
+
+clear <function>	Clear any breakpoints set at the entry to the function <function>.
+clear <filename><function>	Clear any breakpoints set at the entry to the function <function> defined in the source code file <filename>.
+clear <linenum>	Clear any breakpoints set at line <linenum> of the current source file. The current source file is the last file whose text was printed.
+clear <filename:linenum>	Clear any breakpoints at line <linenum> in file <filename>.
+
+si - execute 1 instruction
+step - execute next line of code
+next - step over if neext step is a call
+backtrace - reconstruit la pile d'appel
+
+where
+list
+
+
+info line 34
+
+https://web.archive.org/web/20180121183732/http://www.dirac.org:80/linux/gdb
+
+# Disassemble
+objdump -S main.o
+
+disassemble /s
+disassemble $pc,+64
+
+To (dis)assemble a single OP with Radare:
+rasm2 -a x86 -d '0000'
+> add byte [eax], al
+
+To convert values
+rax2 1337
+0x539
+rax2 0x43
+67
+
+
+List unresolved symbols
+nm --undefined-only  dist/kff.so

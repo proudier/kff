@@ -1,0 +1,7 @@
+*.o
+*.so
+*.efi
+*.img
+misc/
+build/
+nvram
